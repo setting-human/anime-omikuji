@@ -183,13 +183,12 @@
         } catch(e) { 
             console.error("Supabaseの初期化に失敗しました:", e); 
         }
-
         // コメント一覧を読み込む関数
         async function loadComments() {
             if (!supabaseClient) return;
             const { data, error } = await supabaseClient
                 .from('comments')
-                .select('*')
+                .select('*', { head: false }) // ← 正しい通信のヘッダー形式に直しました
                 .order('created_at', { ascending: false });
 
             if (error) {
@@ -210,6 +209,8 @@
                 listDiv.appendChild(commentEl);
             });
         }
+
+
 
         // コメントを送信する関数
         async function sendComment() {
