@@ -10,26 +10,26 @@
         background: linear-gradient(135deg, #111a24, #1a2a3a);
         min-height: 100vh;
         margin: 0;
-        padding: 30px 15px; /* 上下のすき間を調整 */
+        padding: 30px 15px;
         font-family: sans-serif;
         color: #ffffff;
     }
     h1 {
-        font-size: 28px; /* 42pxから28pxに小さくしてスマホに収まるように */
+        font-size: 28px;
         font-weight: bold;
         letter-spacing: 2px;
         text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         margin-bottom: 10px;
     }
     p {
-        font-size: 14px; /* 16pxから14pxにしてスッキリ */
+        font-size: 14px;
         color: #a0aec0;
         margin-bottom: 30px;
     }
     button {
-        font-size: 18px; /* ボタンの文字も22pxから18pxに */
+        font-size: 18px;
         font-weight: bold;
-        padding: 14px 30px; /* ボタン自体の大きさも少しコンパクトに */
+        padding: 14px 30px;
         background: linear-gradient(to right, #ffd700, #ffa500);
         color: #111a24;
         border: none;
@@ -48,7 +48,7 @@
     #result-card {
         display: none;
         position: fixed;
-        top: 50%; /* 55%から50%にして画面のド真ん中へ */
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         background: rgba(255, 255, 255, 0.1);
@@ -57,7 +57,7 @@
         padding: 20px 30px;
         border-radius: 20px;
         box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-        width: 80%; /* 横幅いっぱいに広がらないように制限 */
+        width: 80%;
         max-width: 400px;
         z-index: 100;
     }
@@ -66,10 +66,10 @@
         font-weight: bold;
         line-height: 1.6;
         color: #ffd700;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9), -2px -2px 4px rgba(0, 0, 0, 0.9); /* ←この行を新しく追加！ */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9), -2px -2px 4px rgba(0, 0, 0, 0.9);
     }
     </style>
-    <!-- 重くならない超高速サーバーからSupabaseを読み込む命令 -->
+    <!-- Supabaseを正常に読み込むための公式CDNスクリプト -->
     <script src="https://jsdelivr.net"></script>
 </head>
 <body>
@@ -93,7 +93,7 @@
         </div>
     </div>
 
-    <!-- 縦長にならないスクロール枠 -->
+    <!-- コメントリスト -->
     <div id="comment-list" style="margin-top: 30px; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; max-height: 250px; overflow-y: auto; padding-right: 10px;"></div>
 
     <script>
@@ -111,7 +111,7 @@
                 "「『死んで勝つ』と『死んでも勝つ』は　全然違うよ恵」(呪術廻戦）",
                 "「逃げちゃダメだ　逃げちゃダメだ　逃げちゃダメだ」（エヴァンゲリオン）",
                 "「人は思い出を忘れることで生きていける。だが、決して忘れてはならないこともある」(エヴァンゲリオン)",
-                "「敵だからって根絶やしにしていいのかな？」(約束のネバーランド)",
+                "「敵だからって根逐やしにしていいのかな？」(約束のネバーランド)",
                 "「邪魔されても裏切られても甘いって言われても　私はその子を信じたい！」（約束のネバーランド）",
                 "「仲間や愛する人達の　手が体がその言葉が　どんなに強い力を持つか」(美少女戦士セーラームーン)",
                 "「だからあたし達　男なんかお呼びじゃないのよ　悪い？」(美少女戦士セーラームーン)",
@@ -122,7 +122,7 @@
                 "「質問を質問で返すなあーっ!! 疑問文には疑問文で答えろと学校で教えているのか？」(ジョジョの奇妙な冒険)",
                 "「真の失敗とはッ！ 開拓の心を忘れ！ 困難に挑戦する事に無縁のところにいる者たちの事をいうのだッ！」(ジョジョの奇妙な冒険)",
                 "「生殺与奪の権を他人に握らせるな！！」(鬼滅の刃)",
-                "「いつかまた会えたら!!! もう一度 仲間と呼んでくれますか!!!?」(ONE PIECE)",
+                "「いつかまた会えたら!!! もう一度 仲間と呼んでくれますか!!!?」（ONE PIECE)",
                 "「老いることも死ぬことも人間という儚い生き物の美しさだ　老いるからこそ死ぬからこそ　堪らなく愛おしく尊いのだ」(鬼滅の刃)",
                 "「晴子……お前が見つけてきた変な男は　湘北に必要な男になったぞ……」(SLAM DUNK)",
                 "「うちには点を取れる奴がいる　オレが30点も40点も入れる必要はない　オレはチームの主役じゃなくていい」(SLAM DUNK)",
@@ -130,7 +130,7 @@
                 "「…私に　マフラーを巻いてくれて　ありがとう」(進撃の巨人)",
                 "「クリリンのことかーーーっ!!!!!」（ドラゴンボール）",
                 "「あきらめたらそこで試合終了ですよ…?」（SLAM DUNK）",
-                "「自分が死ぬときのことは分からんけど 生き様で後悔はしたくない”（呪術廻戦）",
+                "「自分が死ぬときのことは分からんけど 生き様で後悔はしたくない」（呪術廻戦）",
                 "「ひとりで強くなろうとしないで」（ハイキュー!!）",
                 "「何を前にし――何を食べているのか意識しろ それが命 喰う者に課せられた責任――義務と知れ」(バキ)",
                 "「キサマ等の居る場所は既に--我々が2000年前に通過した場所だッッッ」(バキ)",
@@ -145,7 +145,7 @@
                 "「届かなくていい手紙なんてないのですよ。お嬢様」(ヴァイオレット・エヴァーガーデン)",
                 "「もし友達が間違った道に進んでしまった時は、その時は友情を壊してでも友達を止めなさい。それが真の侍の友情よ」(銀魂)",
                 "「オイよく聞け、俺ァ皿割りに来たんじゃねぇ、てめーらの鼻へシ折りに来ただけだ」(銀魂)",
-                "「オレはお前とも闘いたい……」(NARUTO -ナルト-)",
+                "`「オレはお前とも闘いたい……」(NARUTO -ナルト-)`,
                 "「忍びの世界でルールや掟を守れないやつはクズ呼ばわりされる。　けどな仲間を大切にしない奴はそれ以上のクズだ。」(NARUTO -ナルト-)",
                 "「俺を天下に連れて行ってくれ」(キングダム)",
                 "「どれも人の持つ正しい感情からの行動だ、だから堂々巡りとなる」(キングダム)",
@@ -159,8 +159,8 @@
                 "「ケンシロウ、この魂はお前に残そう。そしてこの肉体はラオウとの死闘に捨てよう！！」(北斗の拳)",
                 "「おれがなるって決めたんだからその為に戦って死ぬんなら別にいい」(ONE PIECE)",
                 "「おれは海賊王になるんだよ！！偉くなりてェわけじゃねェ！！」(ONE PIECE)",
-                "「おれはれっきとした人間だぜ…臆病で弱っちい…ただの人間さ…!!」(ドラゴンクエスト ダイの大冒険)",
-                "".concat("「今のはメラゾーマではない…メラだ…」(ドラゴンクエスト ダイの大冒険)"),
+                "「おれはれっきとした人間だぜ…臆病で弱っちい…ただの人間さ…!!」(ドラゴンクエスト ダイの大補険)",
+                "「今のはメラゾーマではない…メラだ…」(ドラゴンクエスト ダイの大冒険)",
                 "「ここで働かせてください！」(千と千尋の神隠し)",
                 "「一度あったことは忘れないものさ……想い出せないだけで。」(千と千尋の神隠し)"
             ];
@@ -169,56 +169,47 @@
             document.getElementById("result-card").style.display = "block";
         }
 
-        // 🔑【超重要】お風呂前にSupabaseの歯車マーク（API）からコピーした2つの鍵をここに貼り付けてね！
+        // 🔑Supabaseの接続キー（あなたの環境専用のものです）
         const SUPABASE_URL = "https://supabase.co";
         const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2aHZjZGRmbG5lY3FtcWNrc3lvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NDAxNTgsImV4cCI6MjA5NDQxNjE1OH0.-0HLXrVjUjq8drNQX4J5poHdnafIOrdYNGyV1fHzdac";
 
-        // データベースに安全に繋ぐ処理
         let supabaseClient = null;
         try {
-            // 最新のライブラリ用に「supabase.createClient」を使用
             supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         } catch(e) { 
             console.error("Supabaseの初期化に失敗しました:", e); 
         }
 
-        // データベースからコメントを自動で読み込む処理
+        // コメント一覧を読み込む関数
         async function loadComments() {
             if (!supabaseClient) return;
-            
-            // commentsテーブルから作成日時(created_at)が新しい順にデータを取得
             const { data, error } = await supabaseClient
                 .from('comments')
                 .select('*')
                 .order('created_at', { ascending: false });
 
             if (error) {
-                console.error("コメントの読み込みエラー:", error);
+                console.error("読み込みエラー:", error);
                 return;
             }
 
             const listDiv = document.getElementById("comment-list");
-            listDiv.innerHTML = ""; // 一旦クリア
+            listDiv.innerHTML = ""; 
 
-            // 画面にコメントを書き出す
             data.forEach(item => {
                 const commentEl = document.createElement("div");
                 commentEl.style.padding = "10px";
                 commentEl.style.borderBottom = "1px solid rgba(255,255,255,0.1)";
                 commentEl.style.fontSize = "14px";
                 commentEl.style.wordBreak = "break-all";
-                // item.text部分にデータベースのカラム名が入ります
-                commentEl.innerText = item.text || item.content || ""; 
+                commentEl.innerText = item.text || ""; 
                 listDiv.appendChild(commentEl);
             });
         }
 
-        // コメントを送信する処理
+        // コメントを送信する関数
         async function sendComment() {
-            if (!supabaseClient) {
-                alert("データベースに接続されていません。");
-                return;
-            }
+            if (!supabaseClient) return;
 
             const inputEl = document.getElementById("comment-input");
             const text = inputEl.value.trim();
@@ -228,22 +219,20 @@
                 return;
             }
 
-            // commentsテーブルに新しくデータを追加
-            // ※お使いのテーブルのカラム名（列名）に合わせて {'text': text} を変更してください
             const { error } = await supabaseClient
                 .from('comments')
                 .insert([{ text: text }]);
 
             if (error) {
                 console.error("送信エラー:", error);
-                alert("送信に失敗しました。テーブル設定や権限(RLS)を確認してください。");
+                alert("送信に失敗しました。SupabaseのRLS設定を確認してください。");
             } else {
-                inputEl.value = ""; // 入力欄を空にする
-                loadComments(); // 最新のコメント一覧を再読み込み
+                inputEl.value = ""; 
+                loadComments(); 
             }
         }
 
-        // 画面が開いた時に自動でコメント一覧を読み込む
+        // ページを開いた時に自動実行
         window.onload = function() {
             loadComments();
         };
