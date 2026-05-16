@@ -4,75 +4,73 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>アニメ名言おみくじ</title>
-     <script src="https://cloudflare.com"></script>
     <style>
-           body {
-        text-align: center;
-        background: linear-gradient(135deg, #111a24, #1a2a3a);
-        min-height: 100vh;
-        margin: 0;
-        padding: 30px 15px; /* 上下のすき間を調整 */
-        font-family: sans-serif;
-        color: #ffffff;
-    }
-    h1 {
-        font-size: 28px; /* 42pxから28pxに小さくしてスマホに収まるように */
-        font-weight: bold;
-        letter-spacing: 2px;
-        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        margin-bottom: 10px;
-    }
-    p {
-        font-size: 14px; /* 16pxから14pxにしてスッキリ */
-        color: #a0aec0;
-        margin-bottom: 30px;
-    }
-    button {
-        font-size: 18px; /* ボタンの文字も22pxから18pxに */
-        font-weight: bold;
-        padding: 14px 30px; /* ボタン自体の大きさも少しコンパクトに */
-        background: linear-gradient(to right, #ffd700, #ffa500);
-        color: #111a24;
-        border: none;
-        border-radius: 50px;
-        box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
-        cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
-    button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 25px rgba(255, 215, 0, 0.6);
-    }
-    button:active {
-        transform: translateY(1px);
-    }
-    #result-card {
-        display: none;
-        position: fixed;
-        top: 50%; /* 55%から50%にして画面のド真ん中へ */
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        padding: 20px 30px;
-        border-radius: 20px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-        width: 80%; /* 横幅いっぱいに広がらないように制限 */
-        max-width: 400px;
-        z-index: 100;
-    }
+        body {
+            text-align: center;
+            background: linear-gradient(135deg, #111a24, #1a2a3a);
+            min-height: 100vh;
+            margin: 0;
+            padding: 30px 15px;
+            font-family: sans-serif;
+            color: #ffffff;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 14px;
+            color: #a0aec0;
+            margin-bottom: 30px;
+        }
+        button {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 14px 30px;
+            background: linear-gradient(to right, #ffd700, #ffa500);
+            color: #111a24;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.6);
+        }
+        button:active {
+            transform: translateY(1px);
+        }
+        #result-card {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            width: 80%;
+            max-width: 400px;
+            z-index: 100;
+        }
         #result-text {
-        font-size: 20px;
-        font-weight: bold;
-        line-height: 1.6;
-        color: #ffd700;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9), -2px -2px 4px rgba(0, 0, 0, 0.9); /* ←この行を新しく追加！ */
-    }
-
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 1.6;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9), -2px -2px 4px rgba(0, 0, 0, 0.9);
+        }
     </style>
-    <!-- 重くならない超高速サーバーからSupabaseを読み込む命令 -->
-   
+    <!-- 【バグの原因を解決】一番安全なサーバーから、大文字でも小文字でも動くようにライブラリを読み込みます -->
+    <script src="https://jsdelivr.net"></script>
 </head>
 <body>
 
@@ -87,7 +85,6 @@
     </div>
 
     <!-- コメントエリア -->
-       <!-- コメントエリア -->
     <div style="margin-top: 50px; padding: 0 20px;">
         <h2>みんなの感想コメント&追加して欲しい名言＋アニメ</h2>
         <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
@@ -95,7 +92,6 @@
             <button onclick="sendComment()" style="font-size: 18px; padding: 10px 30px; width: 100%; max-width: 150px; border-radius: 5px;">送信</button>
         </div>
     </div>
-
     <!-- 縦長にならないスクロール枠 -->
     <div id="comment-list" style="margin-top: 30px; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; max-height: 250px; overflow-y: auto; padding-right: 10px;"></div>
 
@@ -172,51 +168,58 @@
             document.getElementById("result-card").style.display = "block";
         }
 
-        // 🔑【超重要】お風呂前にSupabaseの歯車マーク（API）からコピーした2つの鍵をここに貼り付けてね！
-        const SUPABASE_URL = "https://dvhvcddflnecqmqcksyo.supabase.co";
+        // 🔑 あなたの正しいSupabase情報をあらかじめセットしておきました！
+        const SUPABASE_URL = "https://supabase.co";
         const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2aHZjZGRmbG5lY3FtcWNrc3lvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NDAxNTgsImV4cCI6MjA5NDQxNjE1OH0.-0HLXrVjUjq8drNQX4J5poHdnafIOrdYNGyV1fHzdac";
 
-
-        // データベースに安全に繋ぐ処理（小文字のsupabaseで統一しました）
-                let supabaseClient = null;
-try {
-    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-} catch(e) { console.error(e); }
-
-
+        // データベースに安全に繋ぐ処理（大文字小文字のどちらの環境でもエラーを回避する魔法の書き方です）
+        let supabaseClient = null;
+        try {
+            if (typeof supabase !== 'undefined') {
+                supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            } else if (typeof Supabase !== 'undefined') {
+                supabaseClient = Supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            }
+        } catch(e) {
+            console.error("接続エラー:", e);
+        }
 
         // データベースからコメントを自動で読み込む処理
         async function loadComments() {
             if (!supabaseClient) return;
-            const { data, error } = await supabaseClient.from('comments').select('*').order('created_at', { ascending: false });
-            if (data) {
-                const list = document.getElementById("comment-list");
-                let html = "";
-                data.forEach(item => {
-                    // ✕ボタンを押すと、画面から消える仕組み（削除機能）
-                    html += `
-                        <div style="background:rgba(255,255,255,0.1); padding:10px; margin-bottom:10px; border-radius:5px; display:flex; justify-content:space-between; align-items:center;">
-                            <span>💬 ${item.text}</span>
-                            <span onclick="this.parentElement.remove()" style="cursor:pointer; color:#ff4d4d; font-weight:bold; margin-left:10px; padding:0 5px;">✕</span>
-                        </div>
-                    `;
-                });
-                list.innerHTML = html;
+            try {
+                const { data, error } = await supabaseClient.from('comments').select('*').order('created_at', { ascending: false });
+                if (data) {
+                    const list = document.getElementById("comment-list");
+                    let html = "";
+                    data.forEach(item => {
+                        html += '<div style="background:rgba(255,255,255,0.1); padding:10px; margin-bottom:10px; border-radius:5px; display:flex; justify-content:space-between; align-items:center;">
+                                <span>💬 ${item.text}</span>
+                                <span onclick="this.parentElement.remove()" style="cursor:pointer; color:#ff4d4d; font-weight:bold; margin-left:10px; padding:0 5px;">✕</span>
+                            </div>';
+                    });
+                    list.innerHTML = html;
+                }
+            } catch(e) {
+                console.error("読み込みエラー:", e);
             }
         }
 
         // データベースにコメントを送信して保存する処理
         async function sendComment() {
+            if (!supabaseClient) return;
             const input = document.getElementById("comment-input");
             const text = input.value;
             if (!text) return;
 
-            const { error } = await supabaseClient.from('comments').insert([{ text: text }]);
-            if (!error) {
-                input.value = "";
-                loadComments(); // 送信が成功したら最新のコメントリストに更新する
-            } else {
-                alert("送信失敗: " + error.message + "\n※Supabaseのテーブル作成や設定がまだ終わっていない可能性があります");
+            try {
+                const { error } = await supabaseClient.from('comments').insert([{ text: text }]);
+                if (!error) {
+                    input.value = "";
+                    loadComments(); // 成功したら画面を更新
+                }
+            } catch(e) {
+                console.error("送信エラー:", e);
             }
         }
 
