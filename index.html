@@ -178,7 +178,8 @@
 
         let supabaseClient = null;
         try {
-            supabaseClient = supabase.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         } catch(e) { 
             console.error("Supabaseの初期化に失敗しました:", e); 
         }
