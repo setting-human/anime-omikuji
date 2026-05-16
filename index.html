@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>アニメ名言おみくじ</title>
+    <style>
+        body {
+            text-align: center;
+            background: linear-gradient(135deg, #111a24, #1a2a3a);
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 50px;
+            font-family: sans-serif;
+            color: #ffffff;
+        }
+        h1 {
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            color: #a0aec0;
+            margin-bottom: 40px;
+        }
+        button {
+            font-size: 22px;
+            font-weight: bold;
+            padding: 18px 40px;
+            background: linear-gradient(to right, #ffd700, #ffa500);
+            color: #111a24;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.6);
+        }
+        button:active {
+            transform: translateY(1px);
+        }
+        #result-card {
+            display: none;
+            position: fixed;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            max-width: 80%;
+            z-index: 10;
+        }
+        #result-text {
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 1.6;
+            color: #ffd700;
+        }
+    </style>
+    <!-- 重くならない超高速サーバーからSupabaseを読み込む命令 -->
+    <script src="https://cloudflare.com"></script>
+</head>
+<body>
+
+    <h1>アニメ名言おみくじ</h1>
+    <p>下のボタンを押すと、アニメ名言が飛び出すよ！</p>
+
+    <button onclick="omikuji()">おみくじを引く</button>
+
+    <div id="result-card" onclick="this.style.display='none'">
+        <p id="result-text"></p>
+        <p style="font-size:12px; color:#aaa; margin:10px 0 0 0;">(画面をクリックして閉じる)</p>
+    </div>
+
+    <!-- コメントエリア -->
+    <div style="margin-top: 50px;">
+        <h2>みんなの感想コメント&追加して欲しい名言＋アニメ</h2>
+        <input type="text" id="comment-input" placeholder="ここに入力してね" style="font-size: 18px; padding: 10px; width: 300px; border-radius: 5px; border: none; color: #000000; background-color: #ffffff;">
+        <button onclick="sendComment()" style="font-size: 18px; padding: 10px 20px; margin-left: 10px;">送信</button>
+    </div>
+    <!-- 縦長にならないスクロール枠 -->
+    <div id="comment-list" style="margin-top: 30px; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; max-height: 250px; overflow-y: auto; padding-right: 10px;"></div>
+
+    <script>
+        // おみくじの関数
+        function omikuji(){
+            const meigen =[
+                "「負けたくないことに理由って要る？」（ハイキュー‼︎）",
+                "「まだまだだね」（テニスの王子様）",
+            　　 "「大丈夫、僕　最強だから」（呪術廻戦）",
+                "「俺様の美技に酔いな」（テニスの王子様）", 
+                "「なるほどSUNDAYじゃねーの」（テニスの王子様）",
+                "「明日っていまさ！」（ジョジョの奇妙な冒険）",
+                "「背中の傷は剣士の恥だ」（ONE PIECE）",
+                "「自分が死ぬときのことは分からんけど　生き様で後悔はしたくない」(呪術廻戦)",
+                "「『死んで勝つ』と『死んでも勝つ』は　全然違うよ恵」(呪術廻戦）",
+                "「逃げちゃダメだ　逃げちゃダメだ　逃げちゃダメだ」（エヴァンゲリオン）",
+                "「人は思い出を忘れることで生きていける。だが、決して忘れてはならないこともある」(エヴァンゲリオン)",
+                "「敵だからって根絶やしにしていいのかな？」(約束のネバーランド)",
+                "「邪魔されても裏切られても甘いって言われても　私はその子を信じたい！」（約束のネバーランド）",
+                "「仲間や愛する人達の　手が体がその言葉が　どんなに強い力を持つか」(美少女戦士セーラームーン)",
+                "「だからあたし達　男なんかお呼びじゃないのよ　悪い？」(美少女戦士セーラームーン)",
+                "「ヒーローは!!　命を賭してキレイ事実踐するお仕事だ！」(僕のヒーローアカデミア)",
+                "「やめて欲しけりゃ立て!!!　なりてえもんちゃんと見ろ!!」(僕のヒーローアカデミア)",
+                "「認めたくないものだな。自分自身の、若さゆえの過ちというものを」(機動戦士ガンダム)",
+                "「あんなの（足）飾りです。偉い人にはそれがわからんのですよ」(機動戦士ガンダム)",
+                "「質問を質問で返すなあーっ!! 疑問文には疑問文で答えろと学校で教えているのか？」(ジョジョの奇妙な冒険)",
+                "「真の失敗とはッ！ 開拓の心を忘れ！ 困難に挑戦する事に無縁のところにいる者たちの事をいうのだッ！」(ジョジョの奇妙な冒険)",
+                "「生殺与奪の権を他人に握らせるな！！」(鬼滅の刃)",
+                "「いつかまた会えたら!!! もう一度 仲間と呼んでくれますか!!!?」(ONE PIECE)",
+                "「老いることも死ぬことも人間という儚い生き物の美しさだ　老いるからこそ死ぬからこそ　堪らなく愛おしく尊いのだ」(鬼滅の刃)",
+                "「晴子……お前が見つけてきた変な男は　湘北に必要な男になったぞ……」(SLAM DUNK)",
+                "「うちには点を取れる奴がいる　オレが30点も40点も入れる必要はない　オレはチームの主役じゃなくていい」(SLAM DUNK)",
+                "「愛してくれて・・・・・・・・・ありがとう！！！」(ONE PIECE)",
+                "「…私に　マフラーを巻いてくれて　ありがとう」(進撃の巨人)",
+                "「クリリンのことかーーーっ!!!!!」（ドラゴンボール）",
+                "「あきらめたらそこで試合終了ですよ…?」（SLAM DUNK）",
+                "「自分が死ぬときのことは分からんけど 生き様で後悔はしたくない」（呪術廻戦）",
+                "「ひとりで強くなろうとしないで」（ハイキュー!!）",
+                "「何を前にし――何を食べているのか意識しろ それが命 喰う者に課せられた責任――義務と知れ」(バキ)",
+                "「キサマ等の居る場所は既に--我々が2000年前に通過した場所だッッッ」(バキ)",
+                "「俺は選ぶぞ　夢を諦めて死んでくれ」(進撃の巨人)",
+                "「希望に進むのが気持ちのいい人生ってもんだろ」(カイジ)",
+                "「キンキンに冷えてやがるっ……！」(カイジ)",
+                "「・・・もしも相手が絶対かなわない様な強敵だとしても　勝とうとしなきゃ勝てないよ」（ハイキュー!!）",
+                "「─俺達は血液だ　滞り無く流れろ　酸素を回せ　“脳”が　正常に働くために。」（ハイキュー!!）",
+                "「だが子を思う親の心に貴族も平民もない!!」(ベルサイユのばら)",
+                "「千のちかいがいるか　万のちかいがほしいか」(ベルサイユのばら)",
+                "「知りたいのです！　『あいしてる』を……知りたいのです」(ヴァイオレット・エヴァーガーデン)",
+                "「届かなくていい手紙なんてないのですよ。お嬢様」(ヴァイオレット・エヴァーガーデン)",
+                "「もし友達が間違った道に進んでしまった時は、その時は友情を壊してでも友達を止めなさい。それが真の侍の友情よ」(銀魂)",
+                "「オイよく聞け、俺ァ皿割りに来たんじゃねぇ、てめーらの鼻へシ折りに来ただけだ」(銀魂)",
+                "「オレはお前とも闘いたい……」(NARUTO -ナルト-)",
+                "「忍びの世界でルールや掟を守れないやつはクズ呼ばわりされる。　けどな仲間を大切にしない奴はそれ以上のクズだ。」(NARUTO -ナルト-)",
+                "「俺を天下に連れて行ってくれ」(キングダム)",
+                "「どれも人の持つ正しい感情からの行動だ、だから堂々巡りとなる」(キングダム)",
+                "「カミーユが男の名前で何で悪いんだ！　俺は男だよ！」(機動戦士Zガンダム)",
+                "「落ちろカトンボ」(機動戦士Zガンダム)",
+                "「だけど不自由である事と不幸である事はイコールじゃない　哀れに思われるいわれは無いよ！」(鋼の錬金術師)",
+                "「手ぶらで帰ったら腕ぶった斬ってまで尽くしてくれた臣下に合わせる顔が無いだろうがッッ!!!!!!」(鋼の錬金術師)",
+                "「キラが捕まればキラは悪　キラが世界を支配すればキラは正義」(DEATH NOTE -デスノート-)",
+                "「やっぱり　人間って…　面白‼︎…」(DEATH NOTE -デスノート-)",
+                "「同じ女を愛した男だから」(北斗の拳)",
+                "「ケンシロウ、この魂はお前に残そう。そしてこの肉体はラオウとの死闘に捨てよう！！」(北斗の拳)",
+                "「おれがなるって決めたんだからその為に戦って死ぬんなら別にいい」(ONE PIECE)",
+                "「おれは海賊王になるんだよ！！偉くなりてェわけじゃねェ！！」(ONE PIECE)",
+                "「おれはれっきとした人間だぜ…臆病で弱っちい…ただの人間さ…!!」(ドラゴンクエスト ダイの大冒険)",
+                "「今のはメラゾーマではない…メラだ…」(ドラゴンクエスト ダイの大冒険)",
+                "「ここで働かせてください！」(千と千尋の神隠し)",
+                "「一度あったことは忘れないものさ……想い出せないだけで。」(千と千尋の神隠し)",
+            ];
+            const r = Math.floor(Math.random()* meigen.length);
+            document.getElementById("result-text").innerText = meigen[r];
+            document.getElementById("result-card").style.display = "block";
+        }
+
+        // 🔑【超重要】お風呂前にSupabaseの歯車マーク（API）からコピーした2つの鍵をここに貼り付けてね！
+        const SUPABASE_URL = "https://dvhvcddflnecqmqcksyo.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2aHZjZGRmbG5lY3FtcWNrc3lvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NDAxNTgsImV4cCI6MjA5NDQxNjE1OH0.-0HLXrVjUjq8drNQX4J5poHdnafIOrdYNGyV1fHzdac";
+
+
+        // データベースに安全に繋ぐ処理（小文字のsupabaseで統一しました）
+                let supabaseClient = null;
+        if (typeof supabase !== 'undefined') {
+            supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        }
+
+
+        // データベースからコメントを自動で読み込む処理
+        async function loadComments() {
+            if (!supabaseClient) return;
+            const { data, error } = await supabaseClient.from('comments').select('*').order('created_at', { ascending: false });
+            if (data) {
+                const list = document.getElementById("comment-list");
+                let html = "";
+                data.forEach(item => {
+                    // ✕ボタンを押すと、画面から消える仕組み（削除機能）
+                    html += `
+                        <div style="background:rgba(255,255,255,0.1); padding:10px; margin-bottom:10px; border-radius:5px; display:flex; justify-content:space-between; align-items:center;">
+                            <span>💬 ${item.text}</span>
+                            <span onclick="this.parentElement.remove()" style="cursor:pointer; color:#ff4d4d; font-weight:bold; margin-left:10px; padding:0 5px;">✕</span>
+                        </div>
+                    `;
+                });
+                list.innerHTML = html;
+            }
+        }
+
+        // データベースにコメントを送信して保存する処理
+        async function sendComment() {
+            const input = document.getElementById("comment-input");
+            const text = input.value;
+            if (!text) return;
+
+            const { error } = await supabaseClient.from('comments').insert([{ text: text }]);
+            if (!error) {
+                input.value = "";
+                loadComments(); // 送信が成功したら最新のコメントリストに更新する
+            } else {
+                alert("送信失敗: " + error.message + "\n※Supabaseのテーブル作成や設定がまだ終わっていない可能性があります");
+            }
+        }
+
+        // ページを開いたときに自動で読み込む
+        loadComments();
+    </script>
+</body>
+</html>
