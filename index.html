@@ -178,9 +178,10 @@
 
         // データベースに安全に繋ぐ処理（小文字のsupabaseで統一しました）
                 let supabaseClient = null;
-        if (typeof supabase !== 'undefined') {
-            supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        }
+try {
+    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+} catch(e) { console.error(e); }
+
 
 
         // データベースからコメントを自動で読み込む処理
